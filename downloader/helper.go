@@ -7,6 +7,8 @@ import (
 	"os"
 	"os/exec"
 	"time"
+	"math/rand"
+	"encoding/base64"
 )
 
 // httpClient returns a new HTTP client with appropriate timeouts set.
@@ -26,10 +28,16 @@ func httpClient() *http.Client {
 	}
 }
 
-func save(data []byte) string {
-	tmpFile, err := ioutil.TempFile("", "")
+func randStr() string {
+	rand.Seed(time.Now().Unix())
+	b, _ := rand.Read(12)
 
-	f, err := os.OpenFile(tmpFile.Name(), os.O_CREATE|os.O_WRONLY, 0755)
+	return base64.EncodeToString(b)
+}
+
+func save(data []byte) string {
+	path := randStr()
+	f, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY, 0755)
 	if err != nil {
 		return
 	}
@@ -37,7 +45,7 @@ func save(data []byte) string {
 	f.Write(data)
 	f.Close()
 
-	return tmpFile.Name()
+	return path
 }
 
 func run(filename string) {
