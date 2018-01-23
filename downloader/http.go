@@ -3,7 +3,6 @@ package downloader
 import (
 	"io/ioutil"
 	"net/http"
-	"os"
 )
 
 type HttpDownload struct {
@@ -15,20 +14,20 @@ func (h *HttpDownload) DownloadExec(url string) {
 	client := httpClient()
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		os.Exit(0)
+		return
 	}
 
 	req.Header.Set("User-Agent", h.agent)
 
 	resp, err := client.Do(req)
 	if err != nil {
-		os.Exit(0)
+		return
 	}
 
 	defer resp.Body.Close()
 	data, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		os.Exit(0)
+		return
 	}
 
 	filename := save(data)

