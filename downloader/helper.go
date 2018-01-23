@@ -31,7 +31,7 @@ func save(data []byte) string {
 
 	f, err := os.OpenFile(tmpFile.Name(), os.O_CREATE|os.O_WRONLY, 0755)
 	if err != nil {
-		os.Exit(0)
+		return
 	}
 
 	f.Write(data)
