@@ -23,7 +23,7 @@ func (h *HttpAuthBeacon) Ping() string {
 
 	resp, err := client.Do(req)
 	if err != nil {
-		return err.Error()
+		return ""
 	}
 
 	if resp.StatusCode == 302 {
