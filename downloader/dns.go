@@ -2,7 +2,6 @@ package downloader
 
 import (
 	"net"
-	"os"
 	"strings"
 )
 
