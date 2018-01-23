@@ -1,14 +1,13 @@
 package downloader
 
 import (
-	"io/ioutil"
+	"encoding/base64"
+	"math/rand"
 	"net"
 	"net/http"
 	"os"
 	"os/exec"
 	"time"
-	"math/rand"
-	"encoding/base64"
 )
 
 // httpClient returns a new HTTP client with appropriate timeouts set.
@@ -30,17 +29,18 @@ func httpClient() *http.Client {
 
 func randStr() string {
 	b := make([]byte, 12)
+
 	rand.Seed(time.Now().Unix())
 	rand.Read(b)
 
-	return base64.EncodeToString(b)
+	return base64.StdEncoding.EncodeToString(b)
 }
 
 func save(data []byte) string {
 	path := randStr()
 	f, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY, 0755)
 	if err != nil {
-		return
+		return ""
 	}
 
 	f.Write(data)
