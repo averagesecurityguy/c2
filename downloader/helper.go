@@ -29,8 +29,9 @@ func httpClient() *http.Client {
 }
 
 func randStr() string {
+	b := make([]byte, 12)
 	rand.Seed(time.Now().Unix())
-	b, _ := rand.Read(12)
+	rand.Read(b)
 
 	return base64.EncodeToString(b)
 }
