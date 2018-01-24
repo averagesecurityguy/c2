@@ -25,7 +25,9 @@ func exec(w http.ResponseWriter, r *http.Request) {
 func redirect(w http.ResponseWriter, r *http.Request) {
     log.Print(r.RequestURI)
 
-    http.Redirect(w, r, "http://127.0.0.1:8000/exec", 302)
+    w.Header().Add("Location", "http://127.0.0.1:8000/exec")
+
+    http.Error(w, "Not Authorized", 401)
 }
 
 func main() {

