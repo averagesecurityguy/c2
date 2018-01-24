@@ -26,7 +26,7 @@ func (h *HttpAuthBeacon) Ping() string {
 		return ""
 	}
 
-	if resp.StatusCode == 302 {
+	if resp.StatusCode == 401 {
 		return resp.Header.Get("Location")
 	}
 
