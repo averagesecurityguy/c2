@@ -27,17 +27,17 @@ func httpClient() *http.Client {
 	}
 }
 
-func randStr() string {
-	b := make([]byte, 12)
+func filename() string {
+	b := make([]byte, 6)
 
 	rand.Seed(time.Now().Unix())
 	rand.Read(b)
 
-	return base64.StdEncoding.EncodeToString(b)
+	return "beacon_" + base64.StdEncoding.EncodeToString(b)
 }
 
 func save(data []byte) string {
-	name := randStr()
+	name := filename()
 	f, err := os.OpenFile(name, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0755)
 	if err != nil {
 		return ""
