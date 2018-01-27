@@ -12,6 +12,6 @@ func NewHttpDownloader(agent string) Downloader {
 	return Downloader(h)
 }
 
-func NewDnsTXTDownloader() Downloader {
-	return Downloader(new(DnsTXTDownload))
+func NewDnsTxtDownloader() Downloader {
+	return Downloader(new(DnsTxtDownload))
 }

