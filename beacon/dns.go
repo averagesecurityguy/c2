@@ -4,13 +4,13 @@ import (
 	"net"
 )
 
-type DnsBeacon struct {
+type DnsCnameBeacon struct {
 	id     string
 	domain string
 }
 
-func (d *DnsBeacon) Ping() string {
-	recs, err := net.LookupTXT(d.id + "." + d.domain)
+func (d *DnsCnameBeacon) Ping() string {
+	recs, err := net.LookupCNAME(d.id + "." + d.domain)
 	if err != nil {
 		return ""
 	}
