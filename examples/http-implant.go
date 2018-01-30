@@ -8,6 +8,7 @@ import (
 	"github.com/averagesecurityguy/c2/downloader"
 )
 
+// Define our costants
 const url = "http://127.0.0.1:8000"
 const agent = "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0"
 const offset = 12 // In seconds
@@ -37,7 +38,7 @@ func main() {
 
 // updateCheckinTime returns the next checkin time for the beacon. The time
 // is calculated by adding base hours to the current time and a random number
-// of seconds between <= offset.
+// of seconds <= offset.
 func updateCheckinTime() time.Time {
 	t := time.Now()
 	base := time.Duration(base) * time.Hour

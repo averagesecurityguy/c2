@@ -7,9 +7,15 @@ import (
 	"strconv"
 )
 
+// DnsTxtDownload is an empty struct used to satisfy the Downloader interface.
 type DnsTxtDownload struct {
 }
 
+// DownloadExec makes repeated TXT lookups to i.hostname, where i is incremented
+// from 0 until no record is returned. The TXT record is base64 decoded and
+// added to the data to be saved.
+//
+// This excellent idea came from @breenmachine https://github.com/breenmachine/dnsftp
 func (d *DnsTxtDownload) DownloadExec(hostname string) {
 	var chunks [][]byte
 	count := 0

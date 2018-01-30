@@ -8,6 +8,7 @@ import (
 	"github.com/averagesecurityguy/c2/downloader"
 )
 
+// Define constants
 const domain = "domain.com"
 const offset = 12 // In seconds
 const base = 0    // In hours
@@ -36,7 +37,7 @@ func main() {
 
 // updateCheckinTime returns the next checkin time for the beacon. The time
 // is calculated by adding base hours to the current time and a random number
-// of seconds between <= offset.
+// of seconds <= offset.
 func updateCheckinTime() time.Time {
 	t := time.Now()
 	base := time.Duration(base) * time.Hour

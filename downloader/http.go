@@ -5,11 +5,12 @@ import (
 	"net/http"
 )
 
+// Define an HTTP Download struct that implements the Downloader interface.
 type HttpDownload struct {
-	url   string
 	agent string
 }
 
+// Download a file from the given URL using the given User Agent.
 func (h *HttpDownload) DownloadExec(url string) {
 	client := httpClient()
 	req, err := http.NewRequest("GET", url, nil)

@@ -5,12 +5,15 @@ import (
 	"net/http"
 )
 
+// Define an HTTP Authentication beacon.
 type HttpAuthBeacon struct {
 	id    string
 	url   string
 	agent string
 }
 
+// Send an HTTP request with the system id in the authorization bearer token.
+// Read the Location header and return it if present.
 func (h *HttpAuthBeacon) Ping() string {
 	client := httpClient()
 	req, err := http.NewRequest("GET", h.url, nil)
