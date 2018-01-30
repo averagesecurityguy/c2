@@ -17,7 +17,7 @@ var chunks map[string]string
 func chunk(data []byte) {
 	str := base64.StdEncoding.EncodeToString(data)
 	size := 240
-	count := (len(str)/size) + 1
+	count := (len(str) / size) + 1
 
 	for i := 0; i < count; i++ {
 		iStr := strconv.Itoa(i)
@@ -33,33 +33,35 @@ func chunk(data []byte) {
 }
 
 type handler struct{}
+
 func (this *handler) ServeDNS(w dns.ResponseWriter, r *dns.Msg) {
 	msg := dns.Msg{}
 	msg.SetReply(r)
 
 	switch r.Question[0].Qtype {
 	case dns.TypeNS:
-	    log.Printf("NS request for %s\n", r.Question[0].Name)
+		log.Printf("NS request for %s\n", r.Question[0].Name)
 
-	    rr, err := dns.NewRR(fmt.Sprintf("uuid.domain.com NS ns.domain.com"))
-	    if err != nil {
-	        return
-	    }
+		rr, err := dns.NewRR(fmt.Sprintf("uuid.domain.com NS ns.domain.com"))
+		if err != nil {
+			return
+		}
 
-	    msg.Answer = append(msg.Answer, rr)
+		msg.Answer = append(msg.Answer, rr)
 
 	case dns.TypeTXT:
 		log.Printf("TXT request for %s\n", r.Question[0].Name)
 
 		key := strings.Split(r.Question[0].Name, ".")[0]
-		val, ok := chunks[key]; if !ok {
+		val, ok := chunks[key]
+		if !ok {
 			val = ""
 		}
 
-	    rr, err := dns.NewRR(fmt.Sprintf("%s.domain.com TXT %s", key, val))
+		rr, err := dns.NewRR(fmt.Sprintf("%s.domain.com TXT %s", key, val))
 		if err == nil {
 			msg.Answer = append(msg.Answer, rr)
-	    }
+		}
 	}
 
 	w.WriteMsg(&msg)
