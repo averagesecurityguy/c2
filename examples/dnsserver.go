@@ -38,10 +38,10 @@ func (this *handler) ServeDNS(w dns.ResponseWriter, r *dns.Msg) {
 	msg.SetReply(r)
 
 	switch r.Question[0].Qtype {
-	case dns.TypeCNAME:
-	    log.Printf("CNAME request for %s\n", r.Question[0].Name)
+	case dns.TypeNS:
+	    log.Printf("NS request for %s\n", r.Question[0].Name)
 
-	    rr, err := dns.NewRR(fmt.Sprintf("uuid.domain.com CNAME cname.domain.com"))
+	    rr, err := dns.NewRR(fmt.Sprintf("uuid.domain.com NS ns.domain.com"))
 	    if err != nil {
 	        return
 	    }

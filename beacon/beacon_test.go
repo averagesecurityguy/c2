@@ -14,15 +14,15 @@ func TestHttpBeacon(t *testing.T) {
 }
 
 func TestDnsBeacon(t *testing.T) {
-    cname := "cname.domain.com"
-    d := NewDnsCnameBeacon("uuid", "domain.com")
+    ns := "ns.domain.com."
+    d := NewDnsNsBeacon("uuid", "domain.com")
     host := d.Ping()
 
     if host == "" {
         t.Error("Did not receive a hostname from the server.")
     }
 
-    if host != cname {
-        t.Error("Expected", cname, "got", host)
+    if host != ns {
+        t.Error("Expected", ns, "got", host)
     }
 }

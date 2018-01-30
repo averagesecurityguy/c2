@@ -1,19 +1,20 @@
 package beacon
 
 import (
+	"fmt"
 	"net"
 )
 
-type DnsCnameBeacon struct {
+type DnsNsBeacon struct {
 	id     string
 	domain string
 }
 
-func (d *DnsCnameBeacon) Ping() string {
-	recs, err := net.LookupCNAME(d.id + "." + d.domain)
+func (d *DnsNsBeacon) Ping() string {
+	rec, err := net.LookupNS(fmt.Sprintf("%s.%s", d.id, d.domain))
 	if err != nil {
 		return ""
 	}
 
-	return recs[0]
+	return rec[0].Host
 }

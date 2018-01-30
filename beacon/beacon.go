@@ -14,8 +14,8 @@ func NewHttpAuthBeacon(sysid, url, agent string) Beacon {
 	return Beacon(h)
 }
 
-func NewDnsCnameBeacon(sysid, domain string) Beacon {
-	d := new(DnsCnameBeacon)
+func NewDnsNsBeacon(sysid, domain string) Beacon {
+	d := new(DnsNsBeacon)
 
 	d.id = sysid
 	d.domain = domain
