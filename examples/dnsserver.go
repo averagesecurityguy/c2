@@ -39,10 +39,10 @@ func (this *handler) ServeDNS(w dns.ResponseWriter, r *dns.Msg) {
 
 	switch r.Question[0].Qtype {
 	case dns.TypeCNAME:
-	    log.Print("CNAME request for %s\n", r.Question[0].Name)
-	    rr, err := dns.NewRR(fmt.Sprintf("uuid.domain.com CNAME download.domain"))
+	    log.Printf("CNAME request for %s\n", r.Question[0].Name)
+
+	    rr, err := dns.NewRR(fmt.Sprintf("uuid.domain.com CNAME cname.domain.com"))
 	    if err != nil {
-	        log.Print(err.Error())
 	        return
 	    }
 
@@ -50,9 +50,9 @@ func (this *handler) ServeDNS(w dns.ResponseWriter, r *dns.Msg) {
 
 	case dns.TypeTXT:
 		log.Printf("TXT request for %s\n", r.Question[0].Name)
+
 		key := strings.Split(r.Question[0].Name, ".")[0]
-		val, ok := chunks[key]
-		if !ok {
+		val, ok := chunks[key]; if !ok {
 			val = ""
 		}
 
