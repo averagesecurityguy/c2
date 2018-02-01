@@ -6,7 +6,7 @@ import (
 
 func TestHttpBeacon(t *testing.T) {
 	h := NewHttpAuthBeacon("uuid", "http://127.0.0.1:8000/", "agent")
-	url := h.Ping()
+	url := h.Beacon()
 
 	if url == "" {
 		t.Error("Did not receive a URL from the server.")
@@ -16,7 +16,7 @@ func TestHttpBeacon(t *testing.T) {
 func TestDnsBeacon(t *testing.T) {
 	ns := "ns.domain.com."
 	d := NewDnsNsBeacon("uuid", "domain.com")
-	host := d.Ping()
+	host := d.Beacon()
 
 	if host == "" {
 		t.Error("Did not receive a hostname from the server.")

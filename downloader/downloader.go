@@ -6,15 +6,15 @@ type Downloader interface {
 }
 
 // Create a new HTTP Downloader.
-func NewHttpDownloader(agent string) Downloader {
+func NewHttpDownloader(agent string) *HttpDownload {
 	h := new(HttpDownload)
 
 	h.agent = agent
 
-	return Downloader(h)
+	return h
 }
 
 // Create a new DNS TXT record downloader.
-func NewDnsTxtDownloader() Downloader {
-	return Downloader(new(DnsTxtDownload))
+func NewDnsTxtDownloader() *DnsTxtDownload {
+	return new(DnsTxtDownload)
 }

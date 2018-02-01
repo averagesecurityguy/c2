@@ -14,7 +14,7 @@ type HttpAuthBeacon struct {
 
 // Send an HTTP request with the system id in the authorization bearer token.
 // Read the Location header and return it if present.
-func (h *HttpAuthBeacon) Ping() string {
+func (h *HttpAuthBeacon) Beacon() string {
 	client := httpClient()
 	req, err := http.NewRequest("GET", h.url, nil)
 	if err != nil {

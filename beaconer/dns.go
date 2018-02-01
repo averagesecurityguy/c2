@@ -13,7 +13,7 @@ type DnsNsBeacon struct {
 
 // Send a lookup request for a Name server at id.domain. Return the record if
 // any.
-func (d *DnsNsBeacon) Ping() string {
+func (d *DnsNsBeacon) Beacon() string {
 	rec, err := net.LookupNS(fmt.Sprintf("%s.%s", d.id, d.domain))
 	if err != nil {
 		return ""
