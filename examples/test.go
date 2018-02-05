@@ -12,5 +12,5 @@ import (
 
 func main() {
 
-	http.Get("http://127.0.0.1:8000/executed")
+	http.Get("http://192.168.56.1:8000/executed")
 }

