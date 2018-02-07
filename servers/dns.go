@@ -13,6 +13,8 @@ import (
 	"github.com/miekg/dns"
 )
 
+const payloadFile = "payload.bin"
+
 var chunks map[string]string
 
 // Base64 encode our payload and break it into 240 character chunks to be sent
@@ -79,7 +81,7 @@ func main() {
 	chunks = make(map[string]string)
 
 	// Open our payload file and chunk it.
-	data, err := ioutil.ReadFile("test.bin")
+	data, err := ioutil.ReadFile(payloadFile)
 	if err != nil {
 		log.Print("Failed to read file.")
 	} else {
