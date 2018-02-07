@@ -11,6 +11,7 @@ import (
 
 const server = "192.168.56.1"
 const port = "8000"
+const payloadFile = "payload.bin"
 
 // Log a request to /executed. This shows that our test.go file was executed.
 func executed(w http.ResponseWriter, r *http.Request) {
@@ -21,7 +22,7 @@ func executed(w http.ResponseWriter, r *http.Request) {
 func exec(w http.ResponseWriter, r *http.Request) {
 	log.Print(r.RequestURI)
 
-	data, err := ioutil.ReadFile("test.bin")
+	data, err := ioutil.ReadFile(payloadFile)
 	if err != nil {
 		log.Print("Failed to read file.")
 	} else {
