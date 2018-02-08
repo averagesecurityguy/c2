@@ -9,7 +9,7 @@ import (
 )
 
 // Define constants
-const domain = "domain.com"
+const domain = "i.domain.com"
 const offset = 12 // In seconds
 const base = 0    // In hours
 const sleep = 1   // In seconds
