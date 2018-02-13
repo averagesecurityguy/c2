@@ -13,8 +13,8 @@ func TestHttpBeacon(t *testing.T) {
 	}
 }
 
-func TestDnsBeacon(t *testing.T) {
-	ns := "ns.domain.com."
+func TestDnsNsBeacon(t *testing.T) {
+	loc := "ns.domain.com."
 	d := NewDnsNsBeacon("uuid", "domain.com")
 	host := d.Beacon()
 
@@ -22,7 +22,21 @@ func TestDnsBeacon(t *testing.T) {
 		t.Error("Did not receive a hostname from the server.")
 	}
 
-	if host != ns {
-		t.Error("Expected", ns, "got", host)
+	if host != loc {
+		t.Error("Expected", loc, "got", host)
+	}
+}
+
+func TestDnsMxBeacon(t *testing.T) {
+	loc := "ns.domain.com."
+	d := NewDnsMxBeacon("uuid", "domain.com", 10)
+	host := d.Beacon()
+
+	if host == "" {
+		t.Error("Did not receive a hostname from the server.")
+	}
+
+	if host != loc {
+		t.Error("Expected", loc, "got", host)
 	}
 }

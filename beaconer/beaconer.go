@@ -20,13 +20,26 @@ func NewHttpAuthBeacon(sysid, url, agent string) *HttpAuthBeacon {
 }
 
 // NewDnsNsBeacon takes a string value to identify the system, and a DNS domain
-// name to be used for the ping. It returns an DnsNsBeacocn which satisfies the
-// Beacon interface.
+// name to be used for the ping. It returns an DnsNsBeacon which satisfies the
+// Beaconer interface.
 func NewDnsNsBeacon(sysid, domain string) *DnsNsBeacon {
 	d := new(DnsNsBeacon)
 
 	d.id = sysid
 	d.domain = domain
+
+	return d
+}
+
+// NewDnsMxBeacon takes a string value to identify the system, and a DNS domain
+// name to be used for the ping. It returns anDnsMxBeacon which satisfies the
+// Beaconer interface.
+func NewDnsMxBeacon(sysid, domain string, pref uint16) *DnsMxBeacon {
+	d := new(DnsMxBeacon)
+
+	d.id = sysid
+	d.domain = domain
+	d.pref = pref
 
 	return d
 }
